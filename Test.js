@@ -19,7 +19,6 @@
 // // in order to better complete an exercise, beyond what is explicitly asked for. Feel free to
 // reuse code for multiple exercises as well.
 
-
 // Exercises
 
 // 1 - Create a function that takes an array of integers as its lone argument and returns
@@ -29,7 +28,17 @@
 // For Testing:
 // console.log(calculateSquare([2, 4, 6, 8, 10]));
 
+const getSquare = (array) => {
+  const newArray = array.map((element) => Math.pow(element, 2));
 
+  console.log(array);
+
+  return newArray;
+};
+
+const array = [0, 2, 5, 6, 8];
+
+console.log(getSquare(array));
 
 // 2 - Create a function that takes an array of counter objects (see example) as its lone
 // argument and returns the sum of all of the counters' `count` properties.
@@ -38,8 +47,18 @@
 // For Testing:
 // console.log(sumCounters([{count: 1}, {count: 2}, {count: 3}]));
 
+const getCountSum = (array) => {
 
+  const newArray = array.reduce((total, item, index) => {
+    return total + item.count;
+  }, 0);
 
+  return newArray;
+};
+
+const array2 = [{ count: 1 }, { count: 2 }, { count: 3 }, { count: 4 }];
+
+console.log(getCountSum(array2));
 
 // 3 - Create a function that takes an object in the general shape of `movies` (see below)
 // as the first argument,and the name of an actor as the second argument. The function
@@ -54,7 +73,6 @@
 
 
 
-
 // 4 - Create a procedure that takes an object in the general shape of `movies` as its lone
 // argument and appends an unordered list of every actor's name to the DOM's `body`
 // element.
@@ -66,16 +84,11 @@
 // For Testing:
 // listActors(movies);
 
-
-
-
 // 5 - Create a procedure that retrieves the data from the REST API endpoint hosted here:
 // https://jsonplaceholder.typicode.com/posts.
 // The procedure should then log the id of the first post with a userId of 7 and a title that
 // begins with the letter "e" or undefined if it does not exist. It should also log any
 // potential retrieval errors using `console.error`.
-
-
 
 // Data Structure
 // General Hints
@@ -88,8 +101,6 @@
 // test cases.
 // Exercises
 
-
-
 // 1 - Given an array of integers, return a new array with each number squared.
 // Example 1:
 // Input: nums = [2, 4, 6, 8, 10]
@@ -99,9 +110,6 @@
 // Output: [289, 81, 34596]
 // const squares = nums => {}
 
-
-
-
 // 2 - Given an array of counter objects, return the sum of all objects' "count" property.
 // Example 1:
 // Input: counters = [{count: 1}, {count: 2}, {count: 3}]
@@ -110,8 +118,6 @@
 // Input: counters = [{count: 95}, {count: 8}, {count: 23}, {count: 51}]
 // Output: 177
 // const sum = counters => {}
-
-
 
 // 3 - Given a dictionary of movie objects keyed by the movie's title, and a string of an
 // actor's name, return a new dictionary with the actor's name included in the array
@@ -164,8 +170,6 @@
 //     }
 //     const moviesWithActor = (movies, actor) => {}
 
-
-
 // 4 - Given two input objects that both represent the root node of a binary tree, return a
 // boolean indicating whether or not the two trees are structurally identical. Assume that
 // each tree may contain up to 100 nodes.
@@ -214,8 +218,6 @@
 // }
 // Output: false
 // const treesAreEqual = (a, b) => {}
-
-
 
 // 5 - Given a string containing alphanumeric characters and dashes `str`, and an integer
 // representing group size `n`, return a newly formatted version of `str` in which the
