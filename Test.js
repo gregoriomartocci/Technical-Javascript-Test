@@ -212,6 +212,7 @@ const formatString = (str, actual, n) => {
 
   if (new_str[actual].length === n) {
     const next = actual + 1;
+    const str = new_str.join("-");
     formatString(str, next, n);
   }
 
@@ -220,25 +221,29 @@ const formatString = (str, actual, n) => {
 
     if (new_str[actual + 1].length > 1) {
       // le puedo sacar a mi compa de la derecha?
-      
+
       const first_digit = new_str[actual + 1].slice(0, 1);
       new_str[actual].concat(first_digit); // modifico el arreglo
 
+      const str = new_str.join("-");
       formatString(str, actual, n);
     } else {
       return;
     }
 
-    formatString(new_str[actual - 1]);
+    const str = new_str.join("-");
+    formatString(str, actual, n);
   } else {
     //al grupo actual le sobran digitos
 
     if (new_str[actual - 1].length >= n) {
       return "el grupo anterior al grupo que se excede de n digitos, no puede recibir mas.";
     } else {
-
       const first_digit = new_str[actual].slice(0, 1);
       new_str[actual - 1].concat(first_digit);
+
+      const str = new_str.join("-");
+
       formatString(str, actual, n);
     }
   }
@@ -253,6 +258,10 @@ const formatString = (str, actual, n) => {
 formatString("j-45i9ut5-34f-x10", 1, 4);
 
 ("j45i-9ut5-34fx-x10");
+
+const array5 = ["OK", "Okkk", "holaaa", "OJSJDOSJD"];
+
+console.log(array5.join("-"));
 
 // Data Structure
 // General Hints
