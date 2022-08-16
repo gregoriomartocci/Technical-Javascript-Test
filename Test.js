@@ -48,7 +48,6 @@ console.log(getSquare(array));
 // console.log(sumCounters([{count: 1}, {count: 2}, {count: 3}]));
 
 const getCountSum = (array) => {
-
   const newArray = array.reduce((total, item, index) => {
     return total + item.count;
   }, 0);
@@ -71,7 +70,33 @@ console.log(getCountSum(array2));
 // For Testing:
 // console.log(actorInMovies(movies, "Tom Cruise"));
 
+const movies = {
+  big: {
+    actors: ["Elizabeth Perkins", "Robert Loggia"],
+  },
+  "forrest gump": {
+    actors: ["Tom Hanks", "Robin Wright", "Gary Sinise"],
+  },
+  "cast away": {
+    actors: ["Helen Hunt", "Paul Sanchez"],
+  },
+};
 
+const FilterMovies = (movies, name) => {
+  const moviesObject = movies;
+
+  for (var key in moviesObject) {
+    if (!moviesObject[key]["actors"].includes(name)) {
+      moviesObject[key]["actors"] = [...moviesObject[key]["actors"], name];
+    }
+  }
+
+  console.log(moviesObject);
+
+  return moviesObject;
+};
+
+FilterMovies(movies, "Tom Hanks");
 
 // 4 - Create a procedure that takes an object in the general shape of `movies` as its lone
 // argument and appends an unordered list of every actor's name to the DOM's `body`
@@ -84,11 +109,150 @@ console.log(getCountSum(array2));
 // For Testing:
 // listActors(movies);
 
+const a1 = {
+  value: 1,
+  left: { value: 2 },
+};
+const b1 = {
+  value: 1,
+  right: { value: 2 },
+};
+
+// output = false
+
+const a2 = {
+  value: 1,
+  left: { value: 2 },
+  right: { value: 3 },
+};
+const b2 = {
+  value: 1,
+  left: { value: 2 },
+  right: {
+    value: 3,
+    left: { value: 4 },
+  },
+};
+
+// output = true
+
+const readTree = (root) => {
+  if ((root === null) | (root === undefined)) {
+    return [];
+  }
+
+  const result = [];
+
+  if ((root?.left === null) | (root?.left === undefined)) {
+    result.push(...readTree(root?.left));
+  }
+
+  result.push(root?.value);
+
+  if ((root?.right !== null) | (root?.right === undefined)) {
+    result.push(...readTree(root?.left));
+  }
+
+  return result;
+};
+
+const compareArrays = (array1, array2) => {
+  if (!array2) return false;
+
+  if (array1.length != array2.length) return false;
+
+  for (let i = 0, l = array1.length; i < l; i++) {
+    if (array1[i] instanceof Array && array2[i] instanceof Array) {
+      if (!array1[i].compareArrays(array[i])) return false;
+    } else if (array1[i] != array2[i]) {
+      return false;
+    }
+  }
+  return true;
+};
+
+const CompareTrees = (tree1, tree2) => {
+  const treeA = readTree(tree1);
+  const treeB = readTree(tree2);
+
+  console.log("ARBOL A", treeA, "ARBOL B", treeB);
+
+  const result = compareArrays(treeA, treeB);
+  console.log(result);
+  return result;
+};
+
+CompareTrees(a2, b2);
+
 // 5 - Create a procedure that retrieves the data from the REST API endpoint hosted here:
 // https://jsonplaceholder.typicode.com/posts.
 // The procedure should then log the id of the first post with a userId of 7 and a title that
 // begins with the letter "e" or undefined if it does not exist. It should also log any
 // potential retrieval errors using `console.error`.
+
+// Example 1:
+// Input:
+// str = "3h5n-8v-7-m"
+// n = 4
+// Output: "3h5n-8v7m"
+// Example 2:
+// Input:
+// str = "4-3t-0-u"
+// n = 2
+// Output: "4-3t-0u"
+// Example 3:
+// Input:
+// str = "j-45i9ut5-34f-x10"
+// n = 5
+// Output: "j45i-9ut53-4fx10"
+// const formatted = (str, n) => {}
+
+const formatString = (str, actual, n) => {
+  let new_str = str.split("-");
+
+  if (new_str[actual].length === n) {
+    const next = actual + 1;
+    formatString(str, next, n);
+  }
+
+  if (new_str[actual] < n) {
+    //al grupo actual le faltan digitos
+
+    if (new_str[actual + 1].length > 1) {
+      // le puedo sacar a mi compa de la derecha?
+      
+      const first_digit = new_str[actual + 1].slice(0, 1);
+      new_str[actual].concat(first_digit); // modifico el arreglo
+
+      formatString(str, actual, n);
+    } else {
+      return;
+    }
+
+    formatString(new_str[actual - 1]);
+  } else {
+    //al grupo actual le sobran digitos
+
+    if (new_str[actual - 1].length >= n) {
+      return "el grupo anterior al grupo que se excede de n digitos, no puede recibir mas.";
+    } else {
+
+      const first_digit = new_str[actual].slice(0, 1);
+      new_str[actual - 1].concat(first_digit);
+      formatString(str, actual, n);
+    }
+  }
+
+  if ((new_str[actual + 1] === "undefined") | (new_str[actual + 1] === null))
+    return;
+
+  console.log("RESULTADO", new_str);
+  return new_str;
+};
+
+formatString("j-45i9ut5-34f-x10", 1, 4);
+
+("j45i-9ut5-34fx-x10");
 
 // Data Structure
 // General Hints
@@ -124,8 +288,10 @@ console.log(getCountSum(array2));
 // referred to by each movie's "actors" property. If the name is already included in
 // "actors", it should not be included again. Order does not matter. Your function should
 // not modify the input dictionary or any of its sub-structures.
+
 // Example 1:
 // Input:
+
 // movies = {
 // 'big': {
 // actors: ['Elizabeth Perkins', 'Robert Loggia'],
@@ -137,7 +303,9 @@ console.log(getCountSum(array2));
 // actors: ['Helen Hunt', 'Paul Sanchez'],
 // },
 // }
+
 // actor = 'Tom Hanks'
+
 // Output: {
 // 'big': {
 // actors: ['Elizabeth Perkins', 'Robert Loggia', 'Tom Hanks'],
@@ -149,8 +317,10 @@ console.log(getCountSum(array2));
 // actors: ['Helen Hunt', 'Paul Sanchez', 'Tom Hanks'],
 // },
 // }
+
 // Example 2:
 // Input:
+
 // movies = {
 // 'good will hunting': {
 // actors: ['Robin Williams', 'Ben Affleck'],
@@ -224,6 +394,7 @@ console.log(getCountSum(array2));
 // alphanumeric characters are grouped according to `n`, and separated by dashes. Each
 // group should contain exactly `n` characters except for the first one, which may contain
 // less than `n` characters to account for any remainder.
+
 // Example 1:
 // Input:
 // str = "3h5n-8v-7-m"
