@@ -199,18 +199,48 @@ CompareTrees(a2, b2);
 //   console.log(data, "Okkk");
 // };
 
-import fetch from 'node-fetch'
+const https = require("https");
 
-const options = {
-  method: "GET",
-  headers: {},
+const getData = async (url) => {
+  return https
+    .get(url, (res) => {
+      let data = "";
+
+      res.on("data", (response) => {
+        data += response;
+      });
+
+      res.on("end", () => {
+        data = JSON.parse(data);
+
+        const response = data;
+
+        const find = response.find(
+          ({ userId, title }) =>
+            userId === 7 && title.substring(0, 1) === "e"
+        );
+
+        console.log(find, "OKK");
+
+        if (find) return find;
+
+        const message =
+          "Could not find an User Id with 7 digits and the first letter starting with e";
+        console.log(message);
+
+        // if we wanna drop an error with status code simulating the bad request
+        // throw new Error(message, { statusCode: 404 });
+      });
+    })
+
+    .on("error", (err) => {
+      console.log(err.message);
+    });
 };
 
 const url = "https://jsonplaceholder.typicode.com/posts";
 
-fetch(url)
-  .then((data) => console.log(data.json()))
-  .catch((err) => console.log(err));
+getData(url);
 
 // Example 1:
 // Input:
