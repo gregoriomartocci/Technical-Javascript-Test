@@ -190,6 +190,28 @@ CompareTrees(a2, b2);
 // begins with the letter "e" or undefined if it does not exist. It should also log any
 // potential retrieval errors using `console.error`.
 
+// const getData = async (url) => {
+//   const data = fetch(url)
+//     .then((res) => res.json())
+//     .then((data) => {
+//       console.log(data);
+//     });
+//   console.log(data, "Okkk");
+// };
+
+import fetch from 'node-fetch'
+
+const options = {
+  method: "GET",
+  headers: {},
+};
+
+const url = "https://jsonplaceholder.typicode.com/posts";
+
+fetch(url)
+  .then((data) => console.log(data.json()))
+  .catch((err) => console.log(err));
+
 // Example 1:
 // Input:
 // str = "3h5n-8v-7-m"
@@ -208,60 +230,85 @@ CompareTrees(a2, b2);
 // const formatted = (str, n) => {}
 
 const formatString = (str, actual, n) => {
-  let new_str = str.split("-");
+  let new_str = str?.split("-"); // obtengo el array
 
-  if (new_str[actual].length === n) {
-    const next = actual + 1;
-    const str = new_str.join("-");
-    formatString(str, next, n);
-  }
-
-  if (new_str[actual] < n) {
-    //al grupo actual le faltan digitos
-
-    if (new_str[actual + 1].length > 1) {
-      // le puedo sacar a mi compa de la derecha?
-
-      const first_digit = new_str[actual + 1].slice(0, 1);
-      new_str[actual].concat(first_digit); // modifico el arreglo
-
-      const str = new_str.join("-");
-      formatString(str, actual, n);
-    } else {
-      return;
-    }
-
-    const str = new_str.join("-");
-    formatString(str, actual, n);
+  if (
+    (new_str[actual + 1] === "undefined") |
+    (new_str[actual + 1] === null) |
+    (typeof new_str[actual + 1] !== "string") |
+    (actual === new_str?.length - 1)
+  ) {
+    return new_str;
   } else {
-    //al grupo actual le sobran digitos
+    if (actual === 1 && new_str[actual - 1]?.length !== n - 1) {
+      const first_digit = new_str[actual]?.slice(0, 1);
+      new_str[actual - 1] = new_str[actual - 1]?.concat(first_digit);
+      new_str[actual] = new_str[actual]?.slice(1);
 
-    if (new_str[actual - 1].length >= n) {
-      return "el grupo anterior al grupo que se excede de n digitos, no puede recibir mas.";
-    } else {
-      const first_digit = new_str[actual].slice(0, 1);
-      new_str[actual - 1].concat(first_digit);
+      const str = new_str?.join("-");
+      new_str = formatString(str, actual, n);
+
+      if (new_str[actual]?.length === n) {
+        // el grupo tiene la cantidad n
+        const str = new_str.join("-");
+        new_str = formatString(str, actual + 1, n);
+      }
+    }
+
+    if (new_str[actual]?.length < n) {
+      if (new_str[actual + 1]?.length >= 1) {
+        // le puedo sacar a mi compa de la derecha?
+
+        const first_digit = new_str[actual + 1].slice(0, 1);
+        new_str[actual] = new_str[actual].concat(first_digit); // modifico el arreglo
+        new_str[actual + 1] = new_str[actual + 1].slice(1);
+
+        const str = new_str.join("-");
+        new_str = formatString(str, actual, n);
+      } else {
+        return new_str;
+      }
 
       const str = new_str.join("-");
+      new_str = formatString(str, actual, n);
+    } else if (new_str[actual]?.length > n) {
+      //al grupo actual le sobran digitos
 
-      formatString(str, actual, n);
+      if (new_str[actual - 1].length >= n) {
+        // si mi compa de la izq tiene length n o mayor me salgo
+        return new_str;
+      } else {
+        const first_digit = new_str[actual].slice(0, 1);
+        new_str[actual - 1] = new_str[actual - 1].concat(first_digit);
+        new_str[actual] = new_str[actual].slice(1);
+
+        const str = new_str.join("-");
+
+        // console.log(str, "que pasa?");
+        new_str = formatString(str, actual, n);
+      }
     }
   }
 
-  if ((new_str[actual + 1] === "undefined") | (new_str[actual + 1] === null))
-    return;
-
-  console.log("RESULTADO", new_str);
   return new_str;
 };
 
-formatString("j-45i9ut5-34f-x10", 1, 4);
+const formatted = (id, n) => {
+  let array = formatString(id, 1, n);
+  const emptySpace = array.indexOf("");
+  if (emptySpace > -1) {
+    array.splice(emptySpace, 1);
+  }
+  return array;
+};
 
-("j45i-9ut5-34fx-x10");
+// const result1 = formatted("3h5n-8v-7-m", 4);
+const result2 = formatted("4-3t-0-u", 2);
+const result3 = formatted("j-45i9ut5-34f-x10", 5);
 
-const array5 = ["OK", "Okkk", "holaaa", "OJSJDOSJD"];
-
-console.log(array5.join("-"));
+// console.log(result1, "Okkk");
+console.log(result2, "Okkk");
+console.log(result3, "Okkk");
 
 // Data Structure
 // General Hints

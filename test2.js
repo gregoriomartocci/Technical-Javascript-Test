@@ -1,4 +1,5 @@
 const formatString = (str, actual, n) => {
+
   let new_str = str?.split("-"); // obtengo el array
 
   if (
@@ -74,6 +75,11 @@ const formatted = (id, n) => {
   return array;
 };
 
-const result = formatted("j-45i9ut5-34f-x10", 5);
 
-console.log(result, "Okkk");
+// const result1 = formatted("3h5n-8v-7-m", 4);
+const result2 = formatted("4-3t-0-u", 2);
+const result3 = formatted("j-45i9ut5-34f-x10", 5);
+
+// console.log(result1, "Okkk");
+console.log(result2, "Okkk");
+console.log(result3, "Okkk");
