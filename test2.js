@@ -1,6 +1,5 @@
 const formatString = (str, actual, n) => {
   let new_str = str?.split("-"); // obtengo el array
-
   // console.log(new_str[actual] === "3t", "TODO PELOTA");
 
   if (actual === new_str?.length - 1) {
@@ -87,12 +86,6 @@ const formatString = (str, actual, n) => {
 
 const formatted = (id, n) => {
   let array = formatString(id, 1, n);
-
-  const emptySpace = array.indexOf("");
-  if (emptySpace > -1) {
-    array.splice(emptySpace, 1);
-  }
-
   return array;
 };
 
