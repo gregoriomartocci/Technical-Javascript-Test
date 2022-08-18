@@ -216,8 +216,7 @@ const getData = async (url) => {
         const response = data;
 
         const find = response.find(
-          ({ userId, title }) =>
-            userId === 7 && title.substring(0, 1) === "e"
+          ({ userId, title }) => userId === 7 && title.substring(0, 1) === "e"
         );
 
         console.log(find, "OKK");
