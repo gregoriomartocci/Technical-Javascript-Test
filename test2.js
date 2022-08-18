@@ -1,5 +1,3 @@
-const { Console } = require("console");
-
 const formatString = (str, actual, n) => {
   let new_str = str?.split("-"); // obtengo el array
 
@@ -12,7 +10,7 @@ const formatString = (str, actual, n) => {
     if (new_str) {
     }
 
-    if (actual === 1 && new_str[actual - 1]?.length < n - 1 ) {
+    if (actual === 1 && new_str[actual - 1]?.length < n - 1) {
       // si estoy en el primer paso y el de la izq puede recibir?
 
       const first_digit = new_str[actual]?.slice(0, 1);
@@ -41,12 +39,21 @@ const formatString = (str, actual, n) => {
         //   new_str = formatString(str, actual, n);
         // }
 
-        const first_digit = new_str[actual + 1]?.slice(0, 1);
-        new_str[actual] = new_str[actual]?.concat(first_digit); // modifico el arreglo
-        new_str[actual + 1] = new_str[actual + 1]?.slice(1);
+        if (new_str[actual + 1]?.length === 1) {
+          const first_digit = new_str[actual + 1]?.slice(0, 1);
+          new_str[actual] = new_str[actual]?.concat(first_digit); // modifico el arreglo
+          new_str[actual + 1] = new_str[actual + 2];
+          new_str.pop();
+          const str = new_str.join("-");
+          new_str = formatString(str, actual, n);
+        } else {
+          const first_digit = new_str[actual + 1]?.slice(0, 1);
+          new_str[actual] = new_str[actual]?.concat(first_digit); // modifico el arreglo
+          new_str[actual + 1] = new_str[actual + 1]?.slice(1);
 
-        const str = new_str.join("-");
-        new_str = formatString(str, actual, n);
+          const str = new_str.join("-");
+          new_str = formatString(str, actual, n);
+        }
       } else {
         return new_str;
       }
@@ -55,7 +62,7 @@ const formatString = (str, actual, n) => {
       new_str = formatString(str, actual, n);
     }
 
-    // grupo acutal es mayor a N
+    // grupo actual es mayor a N
 
     if (new_str[actual]?.length > n) {
       //al grupo actual le sobran digitos
@@ -75,7 +82,6 @@ const formatString = (str, actual, n) => {
     }
   }
 
-  console.log(new_str, "cheee???");
   return new_str;
 };
 
@@ -90,7 +96,7 @@ const formatted = (id, n) => {
   return array;
 };
 
-const result1 = formatted("3h5n-8v-7-m", 4);           // "3h5n-8v7m"
+const result1 = formatted("3h5n-8v-7-m", 4); // "3h5n-8v7m"
 const result2 = formatted("4-3t-0-u", 2); // "4-3t-0u"
 const result3 = formatted("j-45i9ut5-34f-x10", 5); // "j45i-9ut53-4fx10"
 
